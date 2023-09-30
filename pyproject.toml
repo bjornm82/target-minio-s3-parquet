@@ -1,0 +1,54 @@
+[tool.poetry]
+name = "bjornm82-target-minios3parquet"
+version = "0.0.1"
+description = "`target-minios3parquet` is a Singer target for MinioS3Parquet, built with the Meltano Singer SDK."
+readme = "README.md"
+authors = ["Bjorn Mooijekind <bjmooijekind@gmail.com>"]
+keywords = [
+    "ELT",
+    "MinioS3Parquet",
+]
+license = "Apache-2.0"
+packages = [
+    { include = "target_minios3parquet" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4"
+singer-sdk = { version="~=0.32.0" }
+fs-s3fs = { version = "~=1.1.1", optional = true }
+requests = "~=2.31.0"
+pyarrow = "^13.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = ">=7.4.0"
+singer-sdk = { version="~=0.32.0", extras = ["testing"] }
+
+[tool.poetry.extras]
+s3 = ["fs-s3fs"]
+
+[tool.ruff]
+ignore = [
+    "ANN101",  # missing-type-self
+    "ANN102",  # missing-type-cls
+]
+select = ["ALL"]
+src = ["target_minios3parquet"]
+target-version = "py37"
+
+[tool.ruff.flake8-annotations]
+allow-star-arg-any = true
+
+[tool.ruff.isort]
+known-first-party = ["target_minios3parquet"]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[build-system]
+requires = ["poetry-core>=1.0.8"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+# CLI declaration
+target-minios3parquet = 'target_minios3parquet.target:TargetMinioS3Parquet.cli'
